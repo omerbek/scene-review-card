@@ -6,6 +6,15 @@ const mint = '#9ef4dc';
 const amber = '#ffcb7d';
 const ink = '#152129';
 const duration = 8;
+const controls = [...document.querySelectorAll('#settings input')];
+const settings = Object.fromEntries(controls.map(input => [
+  input.id, input.type === 'number' ? Number(input.value) : input.value
+]));
+controls.forEach(input => input.addEventListener('input', () => {
+  if (input.type === 'number' && (input.value === '' || !input.validity.valid)) return;
+  settings[input.id] = input.type === 'number' ? input.valueAsNumber : input.value;
+  draw();
+}));
 
 function rect(x, y, w, h, color) {
   ctx.fillStyle = color;
@@ -27,8 +36,8 @@ function dot(x, y, radius, color = mint) {
 
 
 function render(t) {
-  ['Ölçüm birimi görünür', 'Durum etiketi okunur', 'Geçiş sekiz saniyeye sığar'].forEach((item, i) => {
-    const done = t > 1 + i * 2;
+  [settings.first, settings.second, settings.third].forEach((item, i) => {
+    const done = i < settings.passed && t >= i * 1.2;
     dot(67, 139 + i * 70, 11, done ? mint : '#40535a');
     label(item, 94, 147 + i * 70, 24);
   });
@@ -72,6 +81,13 @@ play.addEventListener('click', () => {
 seek.addEventListener('input', () => {
   position = Number(seek.value);
   draw();
+});
+
+document.querySelector('#save').addEventListener('click', () => {
+  const link = document.createElement('a');
+  link.download = 'scene-review-card.png';
+  link.href = canvas.toDataURL('image/png');
+  link.click();
 });
 
 draw();
