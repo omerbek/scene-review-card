@@ -13,14 +13,24 @@ canvas {display: block; width: 100%; height: auto; border: 1px solid #40535a;}
 input {flex: 1; min-width: 4rem;}
 button {font: inherit; color: inherit; border: 1px solid #40535a; background: #1c262c; border-radius: .25rem; padding: .55rem; text-align: left; cursor: pointer;}
 a {color: #9ef4dc;}
+fieldset {display:flex; flex-wrap:wrap; gap:.75rem 1rem; margin:0 0 1rem; border:1px solid #40535a;}
+fieldset label {display:flex; flex-direction:column; gap:.2rem; font-size:.85rem;}
+fieldset input {font:inherit; max-width:15rem; padding:.35rem;}
+.controls {flex-wrap:wrap;}
 </style>
 </head>
 <body>
 <header><h1>Sahne kontrolü</h1><p>Yazı hiyerarşisi, kontrast ve zamanlama için görsel inceleme kartı.</p></header>
 <main>
 <section>
+<fieldset id="settings"><legend>Sahne ayarları</legend>
+<label for="first">İlk kontrol<input id="first" value="Ölçüm birimi görünür" type="text" maxlength="45"></label>
+<label for="second">İkinci kontrol<input id="second" value="Durum etiketi okunur" type="text" maxlength="45"></label>
+<label for="third">Üçüncü kontrol<input id="third" value="Geçiş sekiz saniyeye sığar" type="text" maxlength="45"></label>
+<label for="passed">Onaylanan madde sayısı<input id="passed" value="0" type="number" min="0" max="3" step="1"></label>
+</fieldset>
 <canvas width="720" height="405" aria-label="Seçili hareket deneyinin önizlemesi"></canvas>
-<div class="controls"><button id="play" type="button">Oynat</button><input id="seek" type="range" min="0" max="8" step="0.01" value="0" aria-label="Zaman çizelgesi"><output id="time">0.00 sn</output></div>
+<div class="controls"><button id="play" type="button">Oynat</button><input id="seek" type="range" min="0" max="8" step="0.01" value="0" aria-label="Zaman çizelgesi"><output id="time">0.00 sn</output><button id="save" type="button">PNG indir</button></div>
 <p><a href="https://github.com/anthropics/skills">İlham kaynağı · GitHub</a></p>
 </section>
 </main>
